@@ -16,7 +16,7 @@ class SubscribableChannel extends MessageChannel {
 
   constructor() {
     super();
-    this.#port = this.port1;    
+    this.#port = this.port1;
     this.init();
   }
   
@@ -28,6 +28,7 @@ class SubscribableChannel extends MessageChannel {
   }
   
   bindEvents() {
+    this.#port.start();
     this.#port.addEventListener('messageerror', this.handleError);
     this.#target.addEventListener('load', () => this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]));
   }
