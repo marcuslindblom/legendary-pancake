@@ -17,8 +17,11 @@ class SubscribableChannel extends MessageChannel {
   constructor() {
     super();
     this.#port = this.port1;
-    this.#target = document.querySelector('iframe[is=my-iframe]');
-    this.#target.addEventListener( "load", (e) => this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]));
+    customElements.whenDefined('my-iframe').then(() => {
+      this.#target = document.querySelector('iframe[is=my-iframe]');
+      this.#target.addEventListener( "load", (e) => this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]));    
+    });
+
   }
 
   subscribe(messageHandler) {
