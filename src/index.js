@@ -1,5 +1,3 @@
-const IFRAME = document.querySelector('iframe[is=my-iframe]');
-
 const CMD = {
   HSHK: 1,
   EU: 2,
@@ -19,7 +17,7 @@ class SubscribableChannel extends MessageChannel {
   constructor() {
     super();
     this.#port = this.port1;
-    this.#target = IFRAME;
+    this.#target = document.querySelector('iframe[is=my-iframe]');
     this.#target.addEventListener( "load", (e) => this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]));
   }
 
