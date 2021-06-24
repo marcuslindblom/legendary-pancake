@@ -6,3 +6,7 @@
 //   );
 
 // export const hello_world = () => countLetter("Hello world");
+
+import channel from './index';
+
+channel.subscribe();

@@ -16,19 +16,18 @@ class SubscribableChannel extends MessageChannel {
   #port
   #target
 
-  constructor(target) {
+  constructor() {
     super();
     this.#port = this.port1;
-    this.#target = target;
-    const payload = { cmd: CMD.HSHK };
-    this.#target.contentWindow.postMessage( { ...payload }, '*', [this.port2]);
   }
 
   subscribe(messageHandler) {
     if(messageHandler == null) {
       throw 'Parameter can not be null!';
     }
-    this.port1.onmessage = messageHandler;
+    this.#target = IFRAME;
+    this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]);    
+    this.#port.onmessage = messageHandler;
   }
 
   unsubscribe(messageHandler) {}
@@ -39,5 +38,5 @@ class SubscribableChannel extends MessageChannel {
 
 }
 
-export default new SubscribableChannel(IFRAME);
+export default new SubscribableChannel();
 export { CMD, ACTION }
