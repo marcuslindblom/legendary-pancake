@@ -1,0 +1,15 @@
+{
+  "name": "@components-studio/marcuslindblom.legendary-pancake",
+  "version": "0.0.0",
+  "description": "",
+  "license": "ISC",
+  "type": "module",
+  "homepage": "{{ homepage }}",
+  "scripts": {
+    "serve": "cso-cli serve qrZQnOblJTKmeQ2hmpG1 --open"
+  },
+  "devDependencies": {
+    "cso-cli": "latest"
+  },
+  "dependencies": {}
+}
