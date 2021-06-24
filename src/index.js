@@ -19,14 +19,14 @@ class SubscribableChannel extends MessageChannel {
   constructor() {
     super();
     this.#port = this.port1;
+    this.#target = IFRAME;
+    this.#target.addEventListener( "load", (e) => this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]));
   }
 
   subscribe(messageHandler) {
     if(messageHandler == null) {
       throw 'Parameter can not be null!';
     }
-    this.#target = IFRAME;
-    this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]);    
     this.#port.onmessage = messageHandler;
   }
 
