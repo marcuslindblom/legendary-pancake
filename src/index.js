@@ -16,25 +16,38 @@ class SubscribableChannel extends MessageChannel {
 
   constructor() {
     super();
-    this.#port = this.port1;
+    this.#port = this.port1;    
+    this.init();
+  }
+  
+  init() {
     customElements.whenDefined('my-iframe').then(() => {
       this.#target = document.querySelector('iframe[is=my-iframe]');
-      this.#target.addEventListener( "load", (e) => this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]));    
+      this.bindEvents();
     });
-
+  }
+  
+  bindEvents() {
+    this.#port.addEventListener('messageerror', this.handleError);
+    this.#target.addEventListener('load', () => this.#target.contentWindow.postMessage({ cmd: CMD.HSHK }, '*', [this.port2]));
   }
 
   subscribe(messageHandler) {
     if(messageHandler == null) {
       throw 'Parameter can not be null!';
     }
-    this.#port.onmessage = messageHandler;
+    
+    this.#port.addEventListener('message', messageHandler);
   }
 
   unsubscribe(messageHandler) {}
 
   send(message) {
       this.#port.postMessage(message);
+  }
+  
+  handleError(event) {
+    console.error('wooops');
   }
 
 }
