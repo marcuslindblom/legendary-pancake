@@ -1,5 +1,16 @@
 const IFRAME = document.querySelector('iframe[is=my-iframe]');
 
+const CMD = {
+  HSHK: 1,
+  EU: 2,
+  SYNC: 4,
+}
+
+const ACTION = {
+  NONE: 8,
+  EDIT: 16
+}
+
 class SubscribableChannel extends MessageChannel {
 
   #port
@@ -29,3 +40,4 @@ class SubscribableChannel extends MessageChannel {
 }
 
 export default new SubscribableChannel(IFRAME);
+export { CMD, ACTION }
