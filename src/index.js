@@ -54,7 +54,7 @@ class BroadcastablChannel extends MessageChannel {
 }
 
 class SubscribableChannel extends BroadcastChannel {
-  #port;
+  static #port;
 
   constructor(name) {
     super(name);
