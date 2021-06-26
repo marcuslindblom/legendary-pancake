@@ -78,7 +78,6 @@ class SubscribableChannel extends BroadcastChannel {
       case CMD.HSHK:
         console.log('🤝 got handshake from server');
         this.#port = event.ports[0];
-        // this.#port.onmessage = messageHandler;
         this.#port.addEventListener('message', messageHandler);
         this.#port.addEventListener('message', (event) => this.postMessage(event.data));
         this.#port.addEventListener('messageerror', this.error);
@@ -110,6 +109,6 @@ class SubscribableChannel extends BroadcastChannel {
 export {
   CMD,
   ACTION,
-  SubscribableChannel as subscribableChannel,
-  BroadcastablChannel as broadcastablChannel
+  SubscribableChannel,
+  BroadcastablChannel
 }
