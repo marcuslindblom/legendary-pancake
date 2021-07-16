@@ -64,6 +64,7 @@ const useSubscribe = (self, messageHandler) => {
   ['click', 'focus'].forEach(event => {
     self.addEventListener(event, (e) => {
       e.preventDefault();
+      e.stopPropagation();
       ch.send({
         cmd: CMD.EU,
         updates: [
