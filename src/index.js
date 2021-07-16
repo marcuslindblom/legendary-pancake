@@ -58,8 +58,33 @@ class SubscribableChannel extends BroadcastChannel {
 
 }
 
+const useSubscribe = (self, messageHandler) => {
+  const ch = new SubscribableChannel(self.dataset.propertyName);
+  ch.subscribe(messageHandler);
+  ['click', 'focus'].forEach(event => {
+    self.addEventListener(event, (e) => {
+      ch.send({
+        cmd: CMD.EU,
+        updates: [
+          {
+            lastUserInteraction: new Date().toJSON(),
+            action: ACTION.EDIT,
+            origin: location.origin,
+            currentPath: location.pathname,
+            propertyName: self.dataset.propertyName,
+            editorName: self.dataset.editorName,
+            placeholder: self.ariaPlaceholder,
+          },
+        ],
+      });
+  })
+  });
+  return ch;
+};
+
 export {
   CMD,
   ACTION,
-  SubscribableChannel  
+  SubscribableChannel,
+  useSubscribe
 }
