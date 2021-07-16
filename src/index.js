@@ -63,6 +63,7 @@ const useSubscribe = (self, messageHandler) => {
   ch.subscribe(messageHandler);
   ['click', 'focus'].forEach(event => {
     self.addEventListener(event, (e) => {
+      e.preventDefault();
       ch.send({
         cmd: CMD.EU,
         updates: [
