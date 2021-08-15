@@ -38,6 +38,9 @@ class SubscribableChannel extends BroadcastChannel {
         this.#port.addEventListener('message', (event) => this.postMessage(event.data));
         this.#port.addEventListener('messageerror', this.error);
         this.#port.start();
+        
+        handler(event);
+        
         break;
 
       default:
