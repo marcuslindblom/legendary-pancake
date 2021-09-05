@@ -64,6 +64,12 @@ class SubscribableChannel extends BroadcastChannel {
 const useSubscribe = (self, messageHandler) => {
   const ch = new SubscribableChannel(self.dataset.propertyName);
   ch.subscribe(messageHandler);
+  const editor =
+    self.dataset.editorName ??
+    Object.getPrototypeOf(Object.getPrototypeOf(self))
+      .constructor.name.replace(/([A-Z][a-z])/g, "-$1")
+      .concat("-Editor")
+      .toLowerCase();
   ['click', 'focus'].forEach(event => {
     self.addEventListener(event, (e) => {
       e.preventDefault();
@@ -77,7 +83,7 @@ const useSubscribe = (self, messageHandler) => {
             origin: location.origin,
             currentPath: location.pathname,
             propertyName: self.dataset.propertyName,
-            editorName: self.dataset.editorName,
+            editorName: editor,
             placeholder: self.ariaPlaceholder,
           },
         ],
