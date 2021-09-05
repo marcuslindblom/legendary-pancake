@@ -93,9 +93,55 @@ const useSubscribe = (self, messageHandler) => {
   return ch;
 };
 
+const useState = (self, handler) => {
+
+  const defaultHandler = ({ data }) => {
+    if (data.cmd === CMD.SYNC) {
+      data.sync.forEach((update) => {
+        if (update.propertyName === self.dataset.propertyName && update.currentPath === location.pathname) {
+          handler(update.data[self.dataset.propertyName]);
+        }
+      });
+    }
+  };
+
+  const ch = new SubscribableChannel(self.dataset.propertyName);
+  ch.subscribe(defaultHandler);
+
+  const editor =
+    self.dataset.editorName ??
+    Object.getPrototypeOf(Object.getPrototypeOf(self))
+      .constructor.name.replace(/([A-Z][a-z])/g, "-$1")
+      .concat("-Editor")
+      .toLowerCase();
+
+  ["click", "focus"].forEach((event) => {
+    self.addEventListener(event, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      ch.send({
+        cmd: CMD.EU,
+        updates: [
+          {
+            lastUserInteraction: new Date().toJSON(),
+            action: ACTION.EDIT,
+            origin: location.origin,
+            currentPath: location.pathname,
+            propertyName: self.dataset.propertyName,
+            editorName: editor,
+            placeholder: self.ariaPlaceholder,
+          },
+        ],
+      });
+    });
+  });
+
+};
+
 export {
   CMD,
   ACTION,
   SubscribableChannel,
-  useSubscribe
+  useSubscribe,
+  useState
 }
