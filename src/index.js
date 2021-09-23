@@ -38,9 +38,9 @@ class SubscribableChannel extends BroadcastChannel {
         this.#port.addEventListener('message', (event) => this.postMessage(event.data));
         this.#port.addEventListener('messageerror', this.error);
         this.#port.start();
-        
+
         messageHandler(event);
-        
+
         break;
 
       default:
@@ -137,6 +137,41 @@ const useState = (self, handler) => {
   });
 
 };
+
+/**
+ * Client components is responsible for:
+ * 1️⃣ Reacting to state changes and if needed, update the live preview.
+ * 2️⃣ Send an edit signal to Wieldy with an object that is used as input parameters for the editor. The parameters are not fixed but some are e.g. status, editorName, label and tmpl
+ */
+
+ class HeadingElement extends HTMLHeadingElement {
+  constructor() {
+    super();
+
+    this.tabIndex = 0;
+  }
+
+  connectedCallback() {
+    useState(this, (state) => (this.textContent = state));
+  }
+}
+
+customElements.define('strife-h1-cpnt', HeadingElement, { extends: 'h1' });
+customElements.define('strife-h2-cpnt', class extends HeadingElement {}, {
+  extends: 'h2',
+});
+customElements.define('strife-h3-cpnt', class extends HeadingElement {}, {
+  extends: 'h3',
+});
+customElements.define('strife-h4-cpnt', class extends HeadingElement {}, {
+  extends: 'h4',
+});
+customElements.define('strife-h5-cpnt', class extends HeadingElement {}, {
+  extends: 'h5',
+});
+customElements.define('strife-h6-cpnt', class extends HeadingElement {}, {
+  extends: 'h6',
+});
 
 export {
   CMD,
