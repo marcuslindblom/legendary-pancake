@@ -1,3 +1,7 @@
+import sheet from './styles.css' assert { type: 'css' };
+
+document.adoptedStyleSheets = [sheet];
+
 const CMD = {
   HSHK: 1,
   EU: 2,

@@ -1,0 +1,43 @@
+[is] {
+  outline-color: var(--outline-color, #027bd2);
+  outline-width: 0;
+  outline-style: var(--outline-style, solid);
+  transition: outline-width 50ms ease;
+  position: relative;
+}
+
+[is]:hover {
+  cursor: pointer;
+}
+[is]:hover,
+[is]:focus,
+[is]:active {
+  outline-width: var(--outline-width, 1px);
+}
+
+[is]:empty:not(img) {
+  outline-width: var(--outline-width, 1px);
+}
+
+[is]:empty:not(img)::before {
+  content: attr(aria-placeholder);
+  opacity: 0.5;
+  -webkit-text-fill-color:#fff;
+}
+
+img:not([src^="http"]) {
+  contain: content;
+  outline: var(--outline-style, solid) var(--outline-width, 1px) var(--outline-color, #027bd2);
+}
+
+img:not([src^="http"])::before {
+  content: attr(aria-placeholder);
+  -webkit-text-fill-color:#fff;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background: currentColor;
+}
